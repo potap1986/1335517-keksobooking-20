@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Михаил Киселев](https://up.htmlacademy.ru/javascript/20/user/1335517).
-* Наставник: `Неизвестно`.
+* Наставник: [Екатерина Кащенко](https://htmlacademy.ru/profile/id109008).
 
 ---
 
