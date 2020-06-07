@@ -122,6 +122,22 @@ var getTime = function (checkin, checkout) {
   return 'Заезд после ' + checkin + ', выезд до ' + checkout;
 };
 
+var getFeatures = function (features, doc) {
+  var featuresCard = doc.querySelector('.popup__features');
+  featuresCard.innerHTML = '';
+  if (features.length !== 0) {
+    features.forEach(function (elem) {
+      var cardLiTemplate = document.querySelector('#card').content.querySelector('.popup__feature');
+      var feature = cardLiTemplate.cloneNode(true);
+      feature.className = 'popup__feature popup__feature--' + elem;
+      featuresCard.appendChild(feature);
+    });
+  } else {
+    featuresCard.style.display = 'none';
+  }
+  return featuresCard;
+};
+
 var renderPopup = function (advert) {
   var popupTemplate = document.querySelector('#card').content.querySelector('.popup');
   var popup = popupTemplate.cloneNode(true);
@@ -131,22 +147,7 @@ var renderPopup = function (advert) {
   popup.querySelector('.popup__type').textContent = getType(advert.offer.type);
   popup.querySelector('.popup__text--capacity').textContent = getCapacity(advert.offer.rooms, advert.offer.guests);
   popup.querySelector('.popup__text--time').textContent = getTime(advert.offer.checkin, advert.offer.checkout);
-  var getFeatures = function (features) {
-    var featuresCard = popup.querySelector('.popup__features');
-    featuresCard.innerHTML = '';
-    if (features.length !== 0) {
-      features.forEach(function (elem) {
-        var cardLiTemplate = document.querySelector('#card').content.querySelector('.popup__feature');
-        var feature = cardLiTemplate.cloneNode(true);
-        feature.className = 'popup__feature popup__feature--' + elem;
-        featuresCard.appendChild(feature);
-      });
-    } else {
-      featuresCard.style.display = 'none';
-    }
-    return featuresCard;
-  };
-  getFeatures(advert.offer.features);
+  getFeatures(advert.offer.features, popup);
   popup.querySelector('.popup__description').textContent = advert.offer.description;
   popup.querySelector('.popup__photo').src = advert.offer.photos;
   popup.querySelector('.popup__avatar').src = advert.author.avatar;
