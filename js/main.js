@@ -175,24 +175,25 @@ var renderCard = function (count) {
 
 renderFragment(announcementsQantity);
 
-mapPins.appendChild(fragment);
-
 var mapFiltersContainer = document.querySelector('.map__filters-container');
-map.insertBefore(renderCard(announcementsQantity), mapFiltersContainer);
 
 var form = document.querySelector('.ad-form');
-var formInputs = Array.from(form.getElementsByTagName('input'));
-var formSelects = Array.from(form.getElementsByTagName('select'));
-var mapInputs = Array.from(document.querySelector('.map__features').getElementsByTagName('input'));
-var mapSelects = Array.from(document.querySelector('.map__filters').getElementsByTagName('select'));
-var elements = formInputs.concat(formSelects, mapInputs, mapSelects);
+var Inputs = document.querySelectorAll('input');
+var Selects = document.querySelectorAll('select');
 
 var setDisabled = function (elem) {
   elem.forEach(function (item) {
     item.setAttribute('disabled', '');
   });
 };
-setDisabled(elements);
+setDisabled(Inputs);
+setDisabled(Selects);
+
+var cancelDisabled = function (elem) {
+  elem.forEach(function (item) {
+    item.removeAttribute('disabled', true);
+  });
+};
 
 var address = document.querySelector('#address');
 var pin = document.querySelector('.map__pin--main');
@@ -204,9 +205,15 @@ address.value = pinX + ', ' + pinY;
 var activationPage = function () {
   map.classList.remove('map--faded');
   form.classList.remove('ad-form--disabled');
-  elements.forEach(function (item) {
-    item.removeAttribute('disabled', true);
-  });
+  mapPins.appendChild(fragment);
+  map.insertBefore(renderCard(announcementsQantity), mapFiltersContainer);
+  cancelDisabled(Inputs);
+  cancelDisabled(Selects);
+
+  for (var i = 0; i < capacity.options.length; i++) {
+    capacity[i].disabled = !DISABLED_ROOMS[rooms.value].includes(capacity.options[i].value);
+    checkCapacity(capacity[i]);
+  }
 
   var mapFilters = document.querySelector('.map__filters');
   var mapFiltersElements = Array.from(mapFilters.getElementsByTagName('*'));
@@ -251,7 +258,6 @@ rooms.addEventListener('change', function () {
     capacity[i].disabled = !DISABLED_ROOMS[rooms.value].includes(capacity.options[i].value);
     checkCapacity(capacity[i]);
   }
-
 });
 
 capacity.addEventListener('change', function () {
