@@ -195,6 +195,7 @@ var setDisabled = function (elem) {
     item.setAttribute('disabled', '');
   });
 };
+
 setDisabled(inputs);
 setDisabled(selects);
 
@@ -420,3 +421,4 @@ timeout.addEventListener('change', function () {
 
 var avatar = form.querySelector('#avatar');
 var images = form.querySelector('#images');
+
