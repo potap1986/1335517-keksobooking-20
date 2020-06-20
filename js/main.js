@@ -418,5 +418,4 @@ timeout.addEventListener('change', function () {
   selectTime(timeout, timein);
 });
 
-var avatar = form.querySelector('#avatar');
-var images = form.querySelector('#images');
+
