@@ -9,10 +9,10 @@
   var PIN_MAIN_HALF = 31;
 
   var MapArea = {
-    TOP: 130,
-    BOTTOM: 630,
-    LEFT: PIN_MAIN_HALF,
-    RIGHT: 1200 + PIN_MAIN_HALF,
+    TOP: 70,
+    BOTTOM: 570,
+    LEFT: map.offsetLeft + PIN_MAIN_HALF,
+    RIGHT: map.offsetLeft + 1200,
   };
 
   var ENTER = 13;
@@ -59,8 +59,8 @@
     evt.preventDefault();
 
     var startCoords = {
-      x: evt.clientX,
-      y: evt.clientY
+      x: evt.pageX,
+      y: evt.pageY
     };
 
     var dragged = false;
@@ -70,8 +70,8 @@
 
       dragged = true;
       var limitedShift = {
-        x: Math.min(Math.max(moveEvt.clientX, MapArea.LEFT), MapArea.RIGHT),
-        y: Math.min(Math.max(moveEvt.clientY, MapArea.TOP), MapArea.BOTTOM)
+        x: Math.min(Math.max(moveEvt.pageX, MapArea.LEFT), MapArea.RIGHT),
+        y: Math.min(Math.max(moveEvt.pageY, MapArea.TOP), MapArea.BOTTOM)
       };
 
       var shift = {

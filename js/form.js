@@ -10,8 +10,19 @@
     '100': ['0']
   };
 
+  var form = document.querySelector('.ad-form');
   var rooms = form.querySelector('#room_number');
   var capacity = form.querySelector('#capacity');
+
+  var checkCapacity = function (item) {
+    if (item.selected) {
+      if (item.disabled) {
+        capacity.setCustomValidity('Количество гостей не соответствует количеству комнат');
+      } else {
+        capacity.setCustomValidity('');
+      }
+    }
+  };
 
   rooms.addEventListener('change', function () {
     for (var i = 0; i < capacity.options.length; i++) {
@@ -28,7 +39,6 @@
 
   // Продолжение валидации
 
-  var form = document.querySelector('.ad-form');
   var title = form.querySelector('#title');
   var MIN_TITLE_LENGTH = 30;
   var MAX_TITLE_LENGTH = 100;
@@ -120,14 +130,6 @@
     rooms: rooms,
     capacity: capacity,
     DISABLED_ROOMS: DISABLED_ROOMS,
-    checkCapacity: function (item) {
-      if (item.selected) {
-        if (item.disabled) {
-          capacity.setCustomValidity('Количество гостей не соответствует количеству комнат');
-        } else {
-          capacity.setCustomValidity('');
-        }
-      }
-    }
+    checkCapacity: checkCapacity
   };
 })();

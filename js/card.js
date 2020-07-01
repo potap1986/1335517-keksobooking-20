@@ -63,47 +63,50 @@
     }
   };
 
+  var renderPopup = function (advert) {
+    var popupTemplate = document.querySelector('#card').content.querySelector('.popup');
+    var popup = popupTemplate.cloneNode(true);
+    var popupClose = popup.querySelector('.popup__close');
+    popup.style.display = 'block';
+    popup.querySelector('.popup__title').textContent = advert.offer.title;
+    popup.querySelector('.popup__text--address').textContent = advert.offer.address;
+    popup.querySelector('.popup__text--price').textContent = getPrice(advert.offer.price);
+    popup.querySelector('.popup__type').textContent = getType(advert.offer.type);
+    popup.querySelector('.popup__text--capacity').textContent = getCapacity(advert.offer.rooms, advert.offer.guests);
+    popup.querySelector('.popup__text--time').textContent = getTime(advert.offer.checkin, advert.offer.checkout);
+    getFeatures(advert.offer.features, popup);
+    popup.querySelector('.popup__description').textContent = advert.offer.description;
+    popup.querySelector('.popup__photo').src = advert.offer.photos;
+    popup.querySelector('.popup__avatar').src = advert.author.avatar;
+
+    popupClose.addEventListener('click', function () {
+      closePopup();
+    });
+
+    popupClose.addEventListener('keydown', function (evt) {
+      if (evt.key === 'Enter') {
+        closePopup();
+      }
+    });
+    // debugger
+    return popup;
+  };
+
+  var removePopup = function () {
+    var popupWindow = document.querySelector('.popup');
+
+    if (popupWindow) {
+      popupWindow.remove();
+    }
+  };
+
   var closePopup = function () {
-    window.card.removePopup();
+    removePopup();
     document.removeEventListener('keydown', onPopupEscPress);
   };
 
   window.card = {
-    renderPopup: function (advert) {
-      var popupTemplate = document.querySelector('#card').content.querySelector('.popup');
-      var popup = popupTemplate.cloneNode(true);
-      var popupClose = popup.querySelector('.popup__close');
-      popup.style.display = 'block';
-      popup.querySelector('.popup__title').textContent = advert.offer.title;
-      popup.querySelector('.popup__text--address').textContent = advert.offer.address;
-      popup.querySelector('.popup__text--price').textContent = getPrice(advert.offer.price);
-      popup.querySelector('.popup__type').textContent = getType(advert.offer.type);
-      popup.querySelector('.popup__text--capacity').textContent = getCapacity(advert.offer.rooms, advert.offer.guests);
-      popup.querySelector('.popup__text--time').textContent = getTime(advert.offer.checkin, advert.offer.checkout);
-      getFeatures(advert.offer.features, popup);
-      popup.querySelector('.popup__description').textContent = advert.offer.description;
-      popup.querySelector('.popup__photo').src = advert.offer.photos;
-      popup.querySelector('.popup__avatar').src = advert.author.avatar;
-
-      popupClose.addEventListener('click', function () {
-        closePopup();
-      });
-
-      popupClose.addEventListener('keydown', function (evt) {
-        if (evt.key === 'Enter') {
-          closePopup();
-        }
-      });
-      // debugger
-      return popup;
-    },
-
-    removePopup: function () {
-      var popupWindow = document.querySelector('.popup');
-
-      if (popupWindow) {
-        popupWindow.remove();
-      }
-    }
+    renderPopup: renderPopup,
+    removePopup: removePopup
   };
 })();
