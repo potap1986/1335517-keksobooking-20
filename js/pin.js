@@ -1,19 +1,28 @@
 'use strict';
 
 (function () {
+
+  var MIN_Y = 130;
+  var MAX_Y = 630;
+
+  var MAIN_PIN = {
+    width: 65,
+    height: 65,
+    tail: 15
+  };
+
+  var DIFF_LEFT = 40;
+  var DIFF_TOP = 80;
+
   var mapPins = document.querySelector('.map__pins');
   var map = document.querySelector('.map');
   var fragment = document.createDocumentFragment();
   var card = document.createDocumentFragment();
-  var PIN_MAIN_HEIGHT = 62 + 22;
-  var PIN_MAIN_HALF = 31;
 
-  var MapArea = {
-    TOP: 70,
-    BOTTOM: 570,
-    LEFT: map.offsetLeft + PIN_MAIN_HALF,
-    RIGHT: map.offsetLeft + 1200,
-  };
+  var minCoordianteY = MIN_Y - MAIN_PIN.height - MAIN_PIN.tail;
+  var maxCoordinateY = MAX_Y - MAIN_PIN.height - MAIN_PIN.tail;
+
+  var pinCenter = Math.round(MAIN_PIN.height / 2);
 
   var ENTER = 13;
   var mainButton = 0;
@@ -48,8 +57,8 @@
 
   var address = document.querySelector('#address');
   var pin = document.querySelector('.map__pin--main');
-  var pinX = parseInt(pin.style.left, 10) + PIN_MAIN_HALF;
-  var pinY = parseInt(pin.style.top, 10) + PIN_MAIN_HEIGHT;
+  var pinX = parseInt(pin.style.left, 10);
+  var pinY = parseInt(pin.style.top, 10);
 
   address.value = pinX + ', ' + pinY;
 
@@ -57,36 +66,45 @@
 
   pin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
-
-    var startCoords = {
-      x: evt.pageX,
-      y: evt.pageY
+    var coordinates = {
+      x: evt.clientX,
+      y: evt.clinentY
     };
 
     var dragged = false;
 
     var onMouseMove = function (moveEvt) {
-      moveEvt.preventDefault();
+      var mapWidth = mapPins.offsetWidth;
 
+      moveEvt.preventDefault();
       dragged = true;
-      var limitedShift = {
-        x: Math.min(Math.max(moveEvt.pageX, MapArea.LEFT), MapArea.RIGHT),
-        y: Math.min(Math.max(moveEvt.pageY, MapArea.TOP), MapArea.BOTTOM)
-      };
 
       var shift = {
-        x: startCoords.x - limitedShift.x,
-        y: startCoords.y - limitedShift.y
+        x: coordinates.x - moveEvt.clientX,
+        y: coordinates.y - moveEvt.clientY
       };
 
-      startCoords = {
-        x: limitedShift.x,
-        y: limitedShift.y
-      };
+      coordinates.x = moveEvt.clientX;
+      coordinates.y = moveEvt.clientY;
 
-      pin.style.top = (pin.offsetTop - shift.y) + 'px';
-      pin.style.left = (pin.offsetLeft - shift.x) + 'px';
-      address.value = (parseInt(pin.style.left, 10) + PIN_MAIN_HALF) + ', ' + (parseInt(pin.style.top, 10) + PIN_MAIN_HEIGHT);
+      var resultX = pin.offsetLeft - shift.x;
+      var resultY = pin.offsetTop - shift.y;
+
+      pin.style.left = resultX < -pinCenter ? -pinCenter + 'px' : resultX + 'px';
+
+      if (resultX > mapWidth - pinCenter) {
+        pin.style.left = mapWidth - pinCenter + 'px';
+      }
+
+      if (resultY <= minCoordianteY) {
+        pin.style.top = minCoordianteY + 'px';
+      } else if (resultY >= maxCoordinateY) {
+        pin.style.top = maxCoordinateY + 'px';
+      } else {
+        pin.style.top = resultY + 'px';
+      }
+
+      address.value = (parseInt(pin.style.left, 10) + DIFF_LEFT) + ', ' + (parseInt(pin.style.top, 10) + DIFF_TOP);
 
     };
 
@@ -109,12 +127,13 @@
     document.addEventListener('mouseup', onMouseUp);
   });
 
+
   // Активация страницы
 
   var activationPage = function () {
     map.classList.remove('map--faded');
     form.classList.remove('ad-form--disabled');
-    mapPins.appendChild(fragment);
+    // mapPins.appendChild(fragment);
     cancelDisabled(inputs);
     cancelDisabled(selects);
     address.setAttribute('disabled', '');
