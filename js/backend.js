@@ -17,13 +17,13 @@
 
   var createRequest = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
-
+    xhr.timeout = TIMEOUT;
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
       if (xhr.status === statusLoadOk) {
         onLoad(xhr.response);
       } else {
-        onError('Данные не загрузились. Причин: ' + xhr.status + ' ' + xhr.statusText);
+        onError('Данные не загрузились. Причина: ' + xhr.status + ' ' + xhr.statusText);
       }
     });
 
@@ -34,8 +34,6 @@
     xhr.addEventListener('timeout', function () {
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
-
-    xhr.timeout = TIMEOUT;
 
     return xhr;
   };

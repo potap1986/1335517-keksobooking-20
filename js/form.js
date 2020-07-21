@@ -11,6 +11,8 @@
   };
 
   var form = document.querySelector('.ad-form');
+  var resetBtn = document.querySelector('.ad-form__reset');
+  var filtersForm = document.querySelector('.map__filters');
   var rooms = form.querySelector('#room_number');
   var capacity = form.querySelector('#capacity');
 
@@ -118,6 +120,28 @@
     timeModified.value = timeChanged.value;
   };
 
+  var resetPage = function () {
+    form.reset();
+    filtersForm.reset();
+    window.pin.removePins();
+    window.card.removePopup();
+    window.map.disactivatePage();
+  };
+
+  var onSucces = function () {
+    resetPage();
+    window.notification.showSuccess();
+  };
+
+  var onError = function () {
+    window.notification.showError(window.backend.save, new FormData(form), onSucces, onError);
+  };
+
+  form.addEventListener('submit', function (evt) {
+    window.backend.save(new FormData(form), onSucces, onError);
+    evt.preventDefault();
+  });
+
   timein.addEventListener('change', function () {
     selectTime(timein, timeout);
   });
@@ -125,6 +149,8 @@
   timeout.addEventListener('change', function () {
     selectTime(timeout, timein);
   });
+
+  resetBtn.addEventListener('click', resetPage);
 
   window.form = {
     rooms: rooms,

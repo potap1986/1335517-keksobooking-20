@@ -5,18 +5,6 @@
     return price + '₽/ночь';
   };
 
-  var OFFER_TYPE_TRANSLATE = ['Дворец', 'Квартира', 'Дом', 'Бунгало'];
-
-  var getType = function (type) {
-    var typeTranslate;
-    window.data.OFFER_TYPE.forEach(function (elem, i) {
-      if (type === elem) {
-        typeTranslate = OFFER_TYPE_TRANSLATE[i];
-      }
-    });
-    return typeTranslate;
-  };
-
   var getCapacity = function (rooms, guests) {
     var roomsLine;
     var guestsLine;
@@ -63,7 +51,29 @@
     }
   };
 
+  var renderPhoto = function (url) {
+    var node = document.createElement('img');
+    node.classList.add('popup__photo');
+    node.width = window.const.PhotoSize.WIDTH;
+    node.height = window.const.PhotoSize.HEIGHT;
+    node.src = url;
+    node.alt = 'Фото жилья';
+    return node;
+  };
+
+  var renderPhotos = function (urls, container) {
+    container.querySelectorAll('.popup__photo').forEach(function (element) {
+      element.remove();
+    });
+    var fragment = document.createDocumentFragment();
+    urls.forEach(function (url) {
+      fragment.appendChild(renderPhoto(url));
+    });
+    container.appendChild(fragment);
+  };
+
   var renderPopup = function (advert) {
+    removePopup();
     var popupTemplate = document.querySelector('#card').content.querySelector('.popup');
     var popup = popupTemplate.cloneNode(true);
     var popupClose = popup.querySelector('.popup__close');
@@ -71,12 +81,12 @@
     popup.querySelector('.popup__title').textContent = advert.offer.title;
     popup.querySelector('.popup__text--address').textContent = advert.offer.address;
     popup.querySelector('.popup__text--price').textContent = getPrice(advert.offer.price);
-    popup.querySelector('.popup__type').textContent = getType(advert.offer.type);
+    popup.querySelector('.popup__type').textContent = window.const.OfferType[advert.offer.type];
     popup.querySelector('.popup__text--capacity').textContent = getCapacity(advert.offer.rooms, advert.offer.guests);
     popup.querySelector('.popup__text--time').textContent = getTime(advert.offer.checkin, advert.offer.checkout);
     getFeatures(advert.offer.features, popup);
     popup.querySelector('.popup__description').textContent = advert.offer.description;
-    popup.querySelector('.popup__photo').src = advert.offer.photos;
+    renderPhotos(advert.offer.photos, popup.querySelector('.popup__photos'));
     popup.querySelector('.popup__avatar').src = advert.author.avatar;
 
     popupClose.addEventListener('click', function () {
@@ -84,11 +94,10 @@
     });
 
     popupClose.addEventListener('keydown', function (evt) {
-      if (evt.key === 'Enter') {
+      if (evt.key === 'Esc' || evt.key === 'Escape') {
         closePopup();
       }
     });
-    // debugger
     return popup;
   };
 
