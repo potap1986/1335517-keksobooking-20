@@ -26,13 +26,13 @@
 
   var ENTER = 13;
   var mainButton = 0;
-  var renderFragment = function (count) {
-    for (var i = 0; i < count; i++) {
-      fragment.appendChild(window.map.renderPin(window.data.adverts[i], i));
+  var renderFragment = function (adverts) {
+    for (var i = 0; i < adverts.length; i++) {
+      fragment.appendChild(window.map.renderPin(adverts[i], i));
     }
   };
 
-  renderFragment(window.data.announcementsQantity);
+  renderFragment(window.data.adverts);
 
   var mapFiltersContainer = document.querySelector('.map__filters-container');
 

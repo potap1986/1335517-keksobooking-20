@@ -2,8 +2,8 @@
 
 (function () {
   var Url = {
-    POST: 'https://js.dump.academy/keksobooking',
-    GET: 'https://js.dump.academy/keksobooking/data',
+    POST: 'https://javascript.pages.academy/keksobooking',
+    GET: 'https://javascript.pages.academy/keksobooking/data',
   };
 
   var Method = {
@@ -13,17 +13,18 @@
 
   var TIMEOUT = 10000;
 
+  var statusLoadOk = 200;
+
   var createRequest = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
-    xhr.timeout = TIMEOUT;
-    xhr.responseType = 'json';
 
+    xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
-      if (xhr.status < 200 || xhr.status > 300) {
+      if (xhr.status === statusLoadOk) {
+        onLoad(xhr.response);
+      } else {
         onError('Данные не загрузились. Причин: ' + xhr.status + ' ' + xhr.statusText);
-        return;
       }
-      onLoad(xhr.response);
     });
 
     xhr.addEventListener('error', function () {
@@ -33,6 +34,8 @@
     xhr.addEventListener('timeout', function () {
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
+
+    xhr.timeout = TIMEOUT;
 
     return xhr;
   };

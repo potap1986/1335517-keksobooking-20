@@ -37,9 +37,9 @@
 
   // Создание массива объявлений
 
-  // var createAnnouncements = function (adv/* count */) {
-  // var announcements = [];
-  // for (var i = 0; i < announcementsQantity; i++) { */
+  var createAnnouncements = function (adv/* count */) {
+  var announcements = [];
+  for (var i = 0; i < announcementsQantity; i++) {
   /*   var locationX = getRandomNumber(50, 700);
       var locationY = getRandomNumber(130, 630);
       var object = {
@@ -86,9 +86,9 @@
           y: adv[i].location.y
         }
       };*/
-  /*
+
       var object = {};
-      object.author.avatar = adv[i].autor.avatar;
+      object.author.avatar = adv[i].author.avatar;
       object.offer.title = adv[i].offer.title;
       object.offer.address = adv[i].offer.title;
       object.offer.price = adv[i].offer.price;
@@ -106,13 +106,13 @@
       announcements.push(object);
     }
     return announcements;
-  };*/
+  };
 
   /* var pins = []; */
   var adverts = [];
 
   var successHandler = function (data) {
-    adverts = data;
+    adverts = createAnnouncements(data);
     /* mapPins.appendChild(fragment);
     pins = mapPins.querySelectorAll('.map__pin');
     for (var i = 0; i < pins.length; i++) {
@@ -124,7 +124,7 @@
   };
 
   var errorHandler = function () {
-    var errorTemplate = document.querySelector('#error').content.querySelector('.error');
+    var errorTemplate = document.querySelector('#error');
     document.body.appendChild(errorTemplate);
     var tryAgainButton = errorTemplate.querySelector('.error__button');
     tryAgainButton.addEventListener('click', function () {
