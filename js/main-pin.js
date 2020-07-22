@@ -1,10 +1,10 @@
 'use strict';
 
 (function () {
-  var minCoordianteY = window.const.MIN_Y - window.const.MainPin.HEIGHT - window.const.MainPin.TAIL;
-  var maxCoordinateY = window.const.MAX_Y - window.const.MainPin.HEIGHT - window.const.MainPin.TAIL;
+  var minCoordianteY = window.constants.MIN_Y - window.constants.MainPin.HEIGHT - window.constants.MainPin.TAIL;
+  var maxCoordinateY = window.constants.MAX_Y - window.constants.MainPin.HEIGHT - window.constants.MainPin.TAIL;
 
-  var pinCenter = Math.round(window.const.MainPin.HEIGHT / 2);
+  var pinCenter = Math.round(window.constants.MainPin.HEIGHT / 2);
 
   var mapPins = document.querySelector('.map__pins');
   var pin = document.querySelector('.map__pin--main');
@@ -62,7 +62,7 @@
         pin.style.top = resultY + 'px';
       }
 
-      address.value = (parseInt(pin.style.left, 10) + window.const.DIFF_LEFT) + ', ' + (parseInt(pin.style.top, 10) + window.const.DIFF_TOP);
+      address.value = (parseInt(pin.style.left, 10) + window.constants.DIFF_LEFT) + ', ' + (parseInt(pin.style.top, 10) + window.constants.DIFF_TOP);
 
     };
 

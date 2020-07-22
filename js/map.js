@@ -8,9 +8,6 @@
   var pinY = parseInt(pin.style.top, 10);
   address.value = pinX + ', ' + pinY;
 
-  var ENTER = 13;
-  var mainButton = 0;
-
   var form = document.querySelector('.ad-form');
   var filterForm = document.querySelector('.map__filters');
   var inputs = document.querySelectorAll('input');
@@ -64,13 +61,13 @@
   disactivatePage();
 
   pin.addEventListener('mousedown', function (evt) {
-    if (evt.button === mainButton) {
+    if (evt.button === window.constants.MAIN_BUTTON) {
       activationPage();
     }
   });
 
   pin.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ENTER) {
+    if (evt.keyCode === window.constants.ENTER) {
       activationPage();
     }
   });

@@ -6,7 +6,7 @@
   var errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
 
   var onPopupEscPress = function (evt) {
-    if (evt.key === 'Esc' || evt.key === 'Escape') {
+    if (evt.key === 'Escape') {
       var errorPopup = main.querySelector('.error');
       var successPopup = main.querySelector('.success');
       if (errorPopup) {
