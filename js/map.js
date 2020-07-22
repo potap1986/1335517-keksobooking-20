@@ -27,10 +27,11 @@
 
 
   // Активация страницы
+  var onMainPinClick = function () {
+    window.data.load();
+  };
 
   var activationPage = function () {
-    window.data.load();
-    filterForm.removeAttribute('disabled', true);
     map.classList.remove('map--faded');
     form.classList.remove('ad-form--disabled');
     cancelDisabled(inputs);
@@ -62,17 +63,18 @@
 
   pin.addEventListener('mousedown', function (evt) {
     if (evt.button === window.constants.MAIN_BUTTON) {
-      activationPage();
+      onMainPinClick();
     }
   });
 
   pin.addEventListener('keydown', function (evt) {
     if (evt.keyCode === window.constants.ENTER) {
-      activationPage();
+      onMainPinClick();
     }
   });
 
   window.map = {
+    activationPage: activationPage,
     disactivatePage: disactivatePage
   };
 })();

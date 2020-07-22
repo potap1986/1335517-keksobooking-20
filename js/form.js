@@ -73,7 +73,7 @@
 
   price.addEventListener('invalid', function () {
     if (price.validity.rangeUnderflow) {
-      price.setCustomValidity('Цена за ночь на может быть меньше 0');
+      price.setCustomValidity('Цена за ночь на может быть такой низкой при выбранном типе жилья');
     } else if (price.validity.rangeOverflow) {
       price.setCustomValidity('Цена за ночь не может быть больше 1 000 000');
     } else if (price.validity.valueMissing) {
@@ -109,6 +109,8 @@
     }
   };
 
+  changeMinPrice();
+
   type.addEventListener('change', function () {
     changeMinPrice();
   });
@@ -134,7 +136,7 @@
   };
 
   var onError = function () {
-    window.notification.showError(window.backend.save, new FormData(form), onSucces, onError);
+    window.notification.showError();
   };
 
   form.addEventListener('submit', function (evt) {

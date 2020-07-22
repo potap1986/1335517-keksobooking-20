@@ -24,20 +24,13 @@
     document.addEventListener('click', closeSuccess);
   };
 
-  var showError = function (action, data, onSuccess, onError) {
+  var showError = function () {
     var tryAgainBtn = errorMessageTemplate.querySelector('.error__button');
 
     main.appendChild(errorMessageTemplate);
     document.addEventListener('keydown', onPopupEscPress);
-    document.addEventListener('click', closeError);
-    tryAgainBtn.addEventListener('click', function () {
-      closeError();
-      if (data === null) {
-        action(onSuccess, onError);
-      } else {
-        action(data, onSuccess, onError);
-      }
-    });
+    document.addEventListener('mousedown', closeError);
+    tryAgainBtn.addEventListener('click', closeError);
   };
 
   var closeError = function () {
