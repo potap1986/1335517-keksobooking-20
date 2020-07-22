@@ -25,13 +25,18 @@
     HEIGHT: 40
   };
 
-  window.const = {
+  var ENTER = 13;
+  var MAIN_BUTTON = 0;
+
+  window.constants = {
     MIN_Y: MIN_Y,
     MAX_Y: MAX_Y,
     MainPin: MainPin,
     DIFF_LEFT: DIFF_LEFT,
     DIFF_TOP: DIFF_TOP,
     OfferType: OfferType,
-    PhotoSize: PhotoSize
+    PhotoSize: PhotoSize,
+    ENTER: ENTER,
+    MAIN_BUTTON: MAIN_BUTTON
   };
 })();

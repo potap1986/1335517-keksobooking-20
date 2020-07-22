@@ -44,18 +44,19 @@
     }
     return featuresCard;
   };
+
   var onPopupEscPress = function (evt) {
     if (evt.key === 'Escape') {
       evt.preventDefault();
-      closePopup();
+      removePopup();
     }
   };
 
   var renderPhoto = function (url) {
     var node = document.createElement('img');
     node.classList.add('popup__photo');
-    node.width = window.const.PhotoSize.WIDTH;
-    node.height = window.const.PhotoSize.HEIGHT;
+    node.width = window.constants.PhotoSize.WIDTH;
+    node.height = window.constants.PhotoSize.HEIGHT;
     node.src = url;
     node.alt = 'Фото жилья';
     return node;
@@ -81,7 +82,7 @@
     popup.querySelector('.popup__title').textContent = advert.offer.title;
     popup.querySelector('.popup__text--address').textContent = advert.offer.address;
     popup.querySelector('.popup__text--price').textContent = getPrice(advert.offer.price);
-    popup.querySelector('.popup__type').textContent = window.const.OfferType[advert.offer.type];
+    popup.querySelector('.popup__type').textContent = window.constants.OfferType[advert.offer.type];
     popup.querySelector('.popup__text--capacity').textContent = getCapacity(advert.offer.rooms, advert.offer.guests);
     popup.querySelector('.popup__text--time').textContent = getTime(advert.offer.checkin, advert.offer.checkout);
     getFeatures(advert.offer.features, popup);
@@ -90,14 +91,10 @@
     popup.querySelector('.popup__avatar').src = advert.author.avatar;
 
     popupClose.addEventListener('click', function () {
-      closePopup();
+      removePopup();
     });
 
-    popupClose.addEventListener('keydown', function (evt) {
-      if (evt.key === 'Esc' || evt.key === 'Escape') {
-        closePopup();
-      }
-    });
+    document.addEventListener('keydown', onPopupEscPress);
     return popup;
   };
 
@@ -106,12 +103,8 @@
 
     if (popupWindow) {
       popupWindow.remove();
+      document.removeEventListener('keydown', onPopupEscPress);
     }
-  };
-
-  var closePopup = function () {
-    removePopup();
-    document.removeEventListener('keydown', onPopupEscPress);
   };
 
   window.card = {
