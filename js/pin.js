@@ -22,7 +22,7 @@
   var renderPins = function (data) {
     var pinContainer = document.querySelector('.map__pins');
     var fragment = document.createDocumentFragment();
-    data.slice(0, 5).forEach(function (adv) {
+    data.slice(0, window.constants.PIN_COUNT).forEach(function (adv) {
       fragment.appendChild(renderPin(adv));
     });
     pinContainer.appendChild(fragment);
