@@ -5,11 +5,12 @@
     data.forEach(function (item, i) {
       item.id = i;
     });
-    window.pin.renderPins(data);
+    window.map.activatePage();
+    window.filter.initFilters(data);
   };
 
   var errorHandler = function () {
-    window.notification.showError(load, null, successHandler, errorHandler);
+    window.notification.showError();
   };
 
   var load = function () {

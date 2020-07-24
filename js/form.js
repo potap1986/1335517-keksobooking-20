@@ -1,20 +1,21 @@
 'use strict';
 
 (function () {
-  // Валидация комнат и гостей
-
-  var DISABLED_ROOMS = {
-    '1': ['1'],
-    '2': ['1', '2'],
-    '3': ['1', '2', '3'],
-    '100': ['0']
-  };
+  var MIN_TITLE_LENGTH = 30;
+  var MAX_TITLE_LENGTH = 100;
 
   var form = document.querySelector('.ad-form');
   var resetBtn = document.querySelector('.ad-form__reset');
   var filtersForm = document.querySelector('.map__filters');
   var rooms = form.querySelector('#room_number');
   var capacity = form.querySelector('#capacity');
+  var title = form.querySelector('#title');
+  var price = form.querySelector('#price');
+  var type = form.querySelector('#type');
+  var timein = form.querySelector('#timein');
+  var timeout = form.querySelector('#timeout');
+
+  // Валидация комнат и гостей
 
   var checkCapacity = function (item) {
     if (item.selected) {
@@ -27,23 +28,30 @@
   };
 
   rooms.addEventListener('change', function () {
-    for (var i = 0; i < capacity.options.length; i++) {
-      capacity[i].disabled = !DISABLED_ROOMS[rooms.value].includes(capacity.options[i].value);
-      window.form.checkCapacity(capacity[i]);
-    }
+    initRoomsSelect();
   });
 
+  var initRoomsSelect = function () {
+    var DISABLED_ROOMS = {
+      '1': ['1'],
+      '2': ['1', '2'],
+      '3': ['1', '2', '3'],
+      '100': ['0']
+    };
+
+    Array.from(capacity.options).forEach(function (option) {
+      option.disabled = !DISABLED_ROOMS[rooms.value].includes(option.value);
+      checkCapacity(option);
+    });
+  };
+
   capacity.addEventListener('change', function () {
-    for (var i = 0; i < capacity.options.length; i++) {
-      window.form.checkCapacity(capacity[i]);
-    }
+    Array.from(capacity.options).forEach(function (option) {
+      checkCapacity(option);
+    });
   });
 
   // Продолжение валидации
-
-  var title = form.querySelector('#title');
-  var MIN_TITLE_LENGTH = 30;
-  var MAX_TITLE_LENGTH = 100;
 
   title.addEventListener('invalid', function () {
     if (title.validity.tooShort) {
@@ -69,11 +77,9 @@
     }
   });
 
-  var price = form.querySelector('#price');
-
   price.addEventListener('invalid', function () {
     if (price.validity.rangeUnderflow) {
-      price.setCustomValidity('Цена за ночь на может быть меньше 0');
+      price.setCustomValidity('Цена за ночь не может быть такой низкой при выбранном типе жилья');
     } else if (price.validity.rangeOverflow) {
       price.setCustomValidity('Цена за ночь не может быть больше 1 000 000');
     } else if (price.validity.valueMissing) {
@@ -83,38 +89,17 @@
     }
   });
 
-  var type = form.querySelector('#type');
-
   var changeMinPrice = function () {
-    switch (type.value) {
-      case 'flat':
-        price.placeholder = '1000';
-        price.min = '1000';
-        break;
-      case 'bungalo':
-        price.placeholder = '0';
-        price.min = '0';
-        break;
-      case 'house':
-        price.placeholder = '5000';
-        price.min = '5000';
-        break;
-      case 'palace':
-        price.placeholder = '10000';
-        price.min = '10000';
-        break;
-      default:
-        price.placeholder = '1000';
-        price.min = '1000';
-    }
+    var minPrice = window.constants.MinPrice[type.value];
+    price.placeholder = minPrice;
+    price.min = minPrice;
   };
+
+  changeMinPrice();
 
   type.addEventListener('change', function () {
     changeMinPrice();
   });
-
-  var timein = form.querySelector('#timein');
-  var timeout = form.querySelector('#timeout');
 
   var selectTime = function (timeChanged, timeModified) {
     timeModified.value = timeChanged.value;
@@ -134,7 +119,7 @@
   };
 
   var onError = function () {
-    window.notification.showError(window.backend.save, new FormData(form), onSucces, onError);
+    window.notification.showError();
   };
 
   form.addEventListener('submit', function (evt) {
@@ -153,9 +138,7 @@
   resetBtn.addEventListener('click', resetPage);
 
   window.form = {
-    rooms: rooms,
-    capacity: capacity,
-    DISABLED_ROOMS: DISABLED_ROOMS,
-    checkCapacity: checkCapacity
+    checkCapacity: checkCapacity,
+    initRoomsSelect: initRoomsSelect,
   };
 })();

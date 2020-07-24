@@ -1,6 +1,9 @@
 'use strict';
 
 (function () {
+  var TIMEOUT = 10000;
+  var STATUS_LOAD_OK = 200;
+
   var Url = {
     POST: 'https://javascript.pages.academy/keksobooking',
     GET: 'https://javascript.pages.academy/keksobooking/data',
@@ -11,28 +14,24 @@
     POST: 'POST',
   };
 
-  var TIMEOUT = 10000;
-
-  var statusLoadOk = 200;
-
   var createRequest = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.timeout = TIMEOUT;
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
-      if (xhr.status === statusLoadOk) {
+      if (xhr.status === STATUS_LOAD_OK) {
         onLoad(xhr.response);
       } else {
-        onError('Данные не загрузились. Причина: ' + xhr.status + ' ' + xhr.statusText);
+        onError();
       }
     });
 
     xhr.addEventListener('error', function () {
-      onError('Произошла ошибка соединения');
+      onError();
     });
 
     xhr.addEventListener('timeout', function () {
-      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+      onError();
     });
 
     return xhr;

@@ -6,21 +6,32 @@
   };
 
   var getCapacity = function (rooms, guests) {
+    var Rooms = {
+      LIMIT_1: 0,
+      LIMIT_2: 2,
+      LIMIT_3: 5,
+    };
+
+    var Guests = {
+      LIMIT_1: 0,
+      LIMIT_2: 1,
+    };
+
     var roomsLine;
     var guestsLine;
-    if (rooms >= 2 && rooms < 5) {
+    if (rooms % 10 >= Rooms.LIMIT_2 && rooms % 10 < Rooms.LIMIT_3) {
       roomsLine = rooms + ' комнаты';
-    } else if (rooms >= 5) {
+    } else if (rooms % 10 >= Rooms.LIMIT_3 || rooms % 10 === Rooms.LIMIT_1) {
       roomsLine = rooms + ' комнат';
     } else {
       roomsLine = rooms + ' комната';
     }
-    if (guests >= 2) {
-      guestsLine = ' для ' + guests + ' гостей';
-    } else if (guests === 1) {
-      guestsLine = ' для ' + guests + ' гостя';
-    } else if (guests === 0) {
+    if (guests % 10 === Guests.LIMIT_1) {
       guestsLine = ' не для гостей';
+    } else if (guests % 10 === Guests.LIMIT_2) {
+      guestsLine = ' для ' + guests + ' гостя';
+    } else {
+      guestsLine = ' для ' + guests + ' гостей';
     }
     return roomsLine + guestsLine;
   };
