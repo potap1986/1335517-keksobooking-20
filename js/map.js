@@ -35,10 +35,7 @@
     cancelDisabled(selects);
     address.setAttribute('readonly', '');
 
-    for (var i = 0; i < window.form.capacity.options.length; i++) {
-      window.form.capacity[i].disabled = !window.form.DISABLED_ROOMS[window.form.rooms.value].includes(window.form.capacity.options[i].value);
-      window.form.checkCapacity(window.form.capacity[i]);
-    }
+    window.form.initRoomsSelect();
 
     var mapFilters = document.querySelector('.map__filters');
     var mapFiltersElements = Array.from(mapFilters.getElementsByTagName('*'));

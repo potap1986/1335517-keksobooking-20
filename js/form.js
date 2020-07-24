@@ -4,13 +4,6 @@
   var MIN_TITLE_LENGTH = 30;
   var MAX_TITLE_LENGTH = 100;
 
-  var DISABLED_ROOMS = {
-    '1': ['1'],
-    '2': ['1', '2'],
-    '3': ['1', '2', '3'],
-    '100': ['0']
-  };
-
   var form = document.querySelector('.ad-form');
   var resetBtn = document.querySelector('.ad-form__reset');
   var filtersForm = document.querySelector('.map__filters');
@@ -35,16 +28,27 @@
   };
 
   rooms.addEventListener('change', function () {
-    for (var i = 0; i < capacity.options.length; i++) {
-      capacity[i].disabled = !DISABLED_ROOMS[rooms.value].includes(capacity.options[i].value);
-      window.form.checkCapacity(capacity[i]);
-    }
+    initRoomsSelect();
   });
 
+  var initRoomsSelect = function () {
+    var DISABLED_ROOMS = {
+      '1': ['1'],
+      '2': ['1', '2'],
+      '3': ['1', '2', '3'],
+      '100': ['0']
+    };
+
+    Array.from(capacity.options).forEach(function (option) {
+      option.disabled = !DISABLED_ROOMS[rooms.value].includes(option.value);
+      checkCapacity(option);
+    });
+  };
+
   capacity.addEventListener('change', function () {
-    for (var i = 0; i < capacity.options.length; i++) {
-      window.form.checkCapacity(capacity[i]);
-    }
+    Array.from(capacity.options).forEach(function (option) {
+      checkCapacity(option);
+    });
   });
 
   // Продолжение валидации
@@ -86,27 +90,9 @@
   });
 
   var changeMinPrice = function () {
-    switch (type.value) {
-      case 'flat':
-        price.placeholder = '1000';
-        price.min = '1000';
-        break;
-      case 'bungalo':
-        price.placeholder = '0';
-        price.min = '0';
-        break;
-      case 'house':
-        price.placeholder = '5000';
-        price.min = '5000';
-        break;
-      case 'palace':
-        price.placeholder = '10000';
-        price.min = '10000';
-        break;
-      default:
-        price.placeholder = '1000';
-        price.min = '1000';
-    }
+    var minPrice = window.constants.MinPrice[type.value];
+    price.placeholder = minPrice;
+    price.min = minPrice;
   };
 
   changeMinPrice();
@@ -152,9 +138,7 @@
   resetBtn.addEventListener('click', resetPage);
 
   window.form = {
-    rooms: rooms,
-    capacity: capacity,
-    DISABLED_ROOMS: DISABLED_ROOMS,
-    checkCapacity: checkCapacity
+    checkCapacity: checkCapacity,
+    initRoomsSelect: initRoomsSelect,
   };
 })();

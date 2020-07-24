@@ -26,6 +26,13 @@
     HEIGHT: 40
   };
 
+  var MinPrice = {
+    bungalo: 0,
+    flat: 1000,
+    house: 5000,
+    palace: 10000,
+  };
+
   var PriceLimit = {
     LOW: 10000,
     HIGH: 50000,
@@ -41,16 +48,17 @@
   window.constants = {
     MIN_Y: MIN_Y,
     MAX_Y: MAX_Y,
-    MainPin: MainPin,
-    PinSize: PinSize,
     MAIN_PIN_RADIUS: MAIN_PIN_RADIUS,
     DIFF_TOP: DIFF_TOP,
-    OfferType: OfferType,
-    PhotoSize: PhotoSize,
     ENTER: ENTER,
     MAIN_BUTTON: MAIN_BUTTON,
-    PriceLimit: PriceLimit,
     PIN_COUNT: PIN_COUNT,
     DEBOUNCE_INTERVAL: DEBOUNCE_INTERVAL,
+    MainPin: MainPin,
+    PinSize: PinSize,
+    OfferType: OfferType,
+    PhotoSize: PhotoSize,
+    PriceLimit: PriceLimit,
+    MinPrice: MinPrice
   };
 })();
