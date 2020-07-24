@@ -5,7 +5,7 @@
     data.forEach(function (item, i) {
       item.id = i;
     });
-    window.map.activationPage();
+    window.map.activatePage();
     window.filter.initFilters(data);
   };
 

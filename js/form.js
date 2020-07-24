@@ -1,7 +1,8 @@
 'use strict';
 
 (function () {
-  // Валидация комнат и гостей
+  var MIN_TITLE_LENGTH = 30;
+  var MAX_TITLE_LENGTH = 100;
 
   var DISABLED_ROOMS = {
     '1': ['1'],
@@ -15,6 +16,13 @@
   var filtersForm = document.querySelector('.map__filters');
   var rooms = form.querySelector('#room_number');
   var capacity = form.querySelector('#capacity');
+  var title = form.querySelector('#title');
+  var price = form.querySelector('#price');
+  var type = form.querySelector('#type');
+  var timein = form.querySelector('#timein');
+  var timeout = form.querySelector('#timeout');
+
+  // Валидация комнат и гостей
 
   var checkCapacity = function (item) {
     if (item.selected) {
@@ -41,10 +49,6 @@
 
   // Продолжение валидации
 
-  var title = form.querySelector('#title');
-  var MIN_TITLE_LENGTH = 30;
-  var MAX_TITLE_LENGTH = 100;
-
   title.addEventListener('invalid', function () {
     if (title.validity.tooShort) {
       title.setCustomValidity('Имя должно состоять минимум из 30-и символов');
@@ -69,11 +73,9 @@
     }
   });
 
-  var price = form.querySelector('#price');
-
   price.addEventListener('invalid', function () {
     if (price.validity.rangeUnderflow) {
-      price.setCustomValidity('Цена за ночь на может быть такой низкой при выбранном типе жилья');
+      price.setCustomValidity('Цена за ночь не может быть такой низкой при выбранном типе жилья');
     } else if (price.validity.rangeOverflow) {
       price.setCustomValidity('Цена за ночь не может быть больше 1 000 000');
     } else if (price.validity.valueMissing) {
@@ -82,8 +84,6 @@
       price.setCustomValidity('');
     }
   });
-
-  var type = form.querySelector('#type');
 
   var changeMinPrice = function () {
     switch (type.value) {
@@ -114,9 +114,6 @@
   type.addEventListener('change', function () {
     changeMinPrice();
   });
-
-  var timein = form.querySelector('#timein');
-  var timeout = form.querySelector('#timeout');
 
   var selectTime = function (timeChanged, timeModified) {
     timeModified.value = timeChanged.value;

@@ -9,15 +9,15 @@
   var mapPins = document.querySelector('.map__pins');
   var pin = document.querySelector('.map__pin--main');
   var address = document.querySelector('#address');
-  var pinX = parseInt(pin.style.left, 10);
-  var pinY = parseInt(pin.style.top, 10);
+  var pinX = pin.offsetLeft + window.constants.MAIN_PIN_RADIUS;
+  var pinY = pin.offsetTop + window.constants.MAIN_PIN_RADIUS;
 
-  address.value = pinX + ', ' + pinY;
+  var defaultAddress = pinX + ', ' + pinY;
 
   var setDefault = function () {
-    pin.style.left = pinX + 'px';
-    pin.style.top = pinY + 'px';
-    address.value = pinX + ', ' + pinY;
+    pin.style.left = pinX - window.constants.MAIN_PIN_RADIUS + 'px';
+    pin.style.top = pinY - window.constants.MAIN_PIN_RADIUS + 'px';
+    address.value = defaultAddress;
   };
 
   // Перемещение пинa
@@ -62,8 +62,7 @@
         pin.style.top = resultY + 'px';
       }
 
-      address.value = (parseInt(pin.style.left, 10) + window.constants.DIFF_LEFT) + ', ' + (parseInt(pin.style.top, 10) + window.constants.DIFF_TOP);
-
+      address.value = (pin.offsetLeft + window.constants.MAIN_PIN_RADIUS) + ', ' + (pin.offsetTop + window.constants.DIFF_TOP);
     };
 
     var onMouseUp = function (upEvt) {

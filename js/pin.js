@@ -6,8 +6,8 @@
     var pin = pinTemplate.cloneNode(true);
     var pinImg = pin.querySelector('img');
 
-    pin.style.left = advert.location.x - 20 + 'px';
-    pin.style.top = advert.location.y - 50 + 'px';
+    pin.style.left = advert.location.x - window.constants.PinSize.WIDTH / 2 + 'px';
+    pin.style.top = advert.location.y - window.constants.PinSize.HEIGHT + 'px';
     pin.dataset.numPin = advert.id;
     pinImg.src = advert.author.avatar;
     pinImg.alt = advert.offer.title;
@@ -22,7 +22,10 @@
   var renderPins = function (data) {
     var pinContainer = document.querySelector('.map__pins');
     var fragment = document.createDocumentFragment();
-    data.slice(0, window.constants.PIN_COUNT).forEach(function (adv) {
+    var advWithOffer = data.slice().filter(function (adv) {
+      return adv.offer;
+    });
+    advWithOffer.slice(0, window.constants.PIN_COUNT).forEach(function (adv) {
       fragment.appendChild(renderPin(adv));
     });
     pinContainer.appendChild(fragment);

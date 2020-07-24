@@ -4,9 +4,6 @@
   var map = document.querySelector('.map');
   var pin = document.querySelector('.map__pin--main');
   var address = document.querySelector('#address');
-  var pinX = parseInt(pin.style.left, 10);
-  var pinY = parseInt(pin.style.top, 10);
-  address.value = pinX + ', ' + pinY;
 
   var form = document.querySelector('.ad-form');
   var filterForm = document.querySelector('.map__filters');
@@ -25,13 +22,13 @@
     });
   };
 
-
   // Активация страницы
+
   var onMainPinClick = function () {
     window.data.load();
   };
 
-  var activationPage = function () {
+  var activatePage = function () {
     map.classList.remove('map--faded');
     form.classList.remove('ad-form--disabled');
     cancelDisabled(inputs);
@@ -57,24 +54,22 @@
     map.classList.add('map--faded');
     form.classList.add('ad-form--disabled');
     window.mainPin.setDefault();
+    pin.addEventListener('mousedown', function (evt) {
+      if (evt.button === window.constants.MAIN_BUTTON) {
+        onMainPinClick();
+      }
+    }, {once: true});
+    pin.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === window.constants.ENTER) {
+        onMainPinClick();
+      }
+    }, {once: true});
   };
 
   disactivatePage();
 
-  pin.addEventListener('mousedown', function (evt) {
-    if (evt.button === window.constants.MAIN_BUTTON) {
-      onMainPinClick();
-    }
-  });
-
-  pin.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.constants.ENTER) {
-      onMainPinClick();
-    }
-  });
-
   window.map = {
-    activationPage: activationPage,
+    activatePage: activatePage,
     disactivatePage: disactivatePage
   };
 })();

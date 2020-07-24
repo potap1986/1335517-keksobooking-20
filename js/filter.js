@@ -23,11 +23,13 @@
   };
 
   var convertPrice = function (price) {
-    if (price < window.constants.PriceLimit.LOW) {
-      return 'low';
-    } else {
-      return price <= window.constants.PriceLimit.HIGH ? 'middle' : 'high';
+    switch (true) {
+      case price < window.constants.PriceLimit.LOW:
+        return 'low';
+      case price <= window.constants.PriceLimit.HIGH:
+        return 'middle';
     }
+    return 'high';
   };
 
   var filterType = function (data) {
