@@ -6,14 +6,14 @@
   var errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
 
   var onPopupEscPress = function (evt) {
-    if (evt.key === 'Escape') {
+    if (evt.key === window.constants.KeyCode.ESC) {
       var errorPopup = main.querySelector('.error');
       var successPopup = main.querySelector('.success');
       if (errorPopup) {
-        closeError();
+        onErrorMessageClose();
       }
       if (successPopup) {
-        closeSuccess();
+        onSuccessMessageClose();
       }
     }
   };
@@ -21,7 +21,7 @@
   var showSuccess = function () {
     main.appendChild(successMessageTemplate);
     document.addEventListener('keydown', onPopupEscPress);
-    document.addEventListener('click', closeSuccess);
+    document.addEventListener('click', onSuccessMessageClose);
   };
 
   var showError = function () {
@@ -29,20 +29,20 @@
 
     main.appendChild(errorMessageTemplate);
     document.addEventListener('keydown', onPopupEscPress);
-    document.addEventListener('mousedown', closeError);
-    tryAgainBtn.addEventListener('click', closeError);
+    document.addEventListener('mousedown', onErrorMessageClose);
+    tryAgainBtn.addEventListener('click', onErrorMessageClose);
   };
 
-  var closeError = function () {
+  var onErrorMessageClose = function () {
     errorMessageTemplate.remove();
     document.removeEventListener('keydown', onPopupEscPress);
-    document.removeEventListener('click', closeError);
+    document.removeEventListener('click', onErrorMessageClose);
   };
 
-  var closeSuccess = function () {
+  var onSuccessMessageClose = function () {
     successMessageTemplate.remove();
     document.removeEventListener('keydown', onPopupEscPress);
-    document.removeEventListener('click', closeSuccess);
+    document.removeEventListener('click', onSuccessMessageClose);
   };
 
   window.notification = {

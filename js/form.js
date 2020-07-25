@@ -3,6 +3,12 @@
 (function () {
   var MIN_TITLE_LENGTH = 30;
   var MAX_TITLE_LENGTH = 100;
+  var DISABLED_ROOMS = {
+    '1': ['1'],
+    '2': ['1', '2'],
+    '3': ['1', '2', '3'],
+    '100': ['0']
+  };
 
   var form = document.querySelector('.ad-form');
   var resetBtn = document.querySelector('.ad-form__reset');
@@ -27,33 +33,26 @@
     }
   };
 
-  rooms.addEventListener('change', function () {
-    initRoomsSelect();
-  });
-
   var initRoomsSelect = function () {
-    var DISABLED_ROOMS = {
-      '1': ['1'],
-      '2': ['1', '2'],
-      '3': ['1', '2', '3'],
-      '100': ['0']
-    };
-
     Array.from(capacity.options).forEach(function (option) {
       option.disabled = !DISABLED_ROOMS[rooms.value].includes(option.value);
       checkCapacity(option);
     });
   };
 
-  capacity.addEventListener('change', function () {
+  rooms.addEventListener('change', initRoomsSelect);
+
+  var onCapacityChange = function () {
     Array.from(capacity.options).forEach(function (option) {
       checkCapacity(option);
     });
-  });
+  };
+
+  capacity.addEventListener('change', onCapacityChange);
 
   // Продолжение валидации
 
-  title.addEventListener('invalid', function () {
+  var onTitleValidationInvalid = function () {
     if (title.validity.tooShort) {
       title.setCustomValidity('Имя должно состоять минимум из 30-и символов');
     } else if (title.validity.tooLong) {
@@ -63,9 +62,9 @@
     } else {
       title.setCustomValidity('');
     }
-  });
+  };
 
-  title.addEventListener('input', function () {
+  var onTitleInput = function () {
     var valueLength = title.value.length;
 
     if (valueLength < MIN_TITLE_LENGTH) {
@@ -75,9 +74,9 @@
     } else {
       title.setCustomValidity('');
     }
-  });
+  };
 
-  price.addEventListener('invalid', function () {
+  var onPriceValidationInvalid = function () {
     if (price.validity.rangeUnderflow) {
       price.setCustomValidity('Цена за ночь не может быть такой низкой при выбранном типе жилья');
     } else if (price.validity.rangeOverflow) {
@@ -87,19 +86,13 @@
     } else {
       price.setCustomValidity('');
     }
-  });
+  };
 
   var changeMinPrice = function () {
     var minPrice = window.constants.MinPrice[type.value];
     price.placeholder = minPrice;
     price.min = minPrice;
   };
-
-  changeMinPrice();
-
-  type.addEventListener('change', function () {
-    changeMinPrice();
-  });
 
   var selectTime = function (timeChanged, timeModified) {
     timeModified.value = timeChanged.value;
@@ -108,6 +101,7 @@
   var resetPage = function () {
     form.reset();
     filtersForm.reset();
+    window.upload.resetUploadedPics();
     window.pin.removePins();
     window.card.removePopup();
     window.map.disactivatePage();
@@ -122,20 +116,33 @@
     window.notification.showError();
   };
 
-  form.addEventListener('submit', function (evt) {
+  var onFormSubmit = function (evt) {
     window.backend.save(new FormData(form), onSucces, onError);
     evt.preventDefault();
-  });
+  };
 
-  timein.addEventListener('change', function () {
+  var onTimeInChange = function () {
     selectTime(timein, timeout);
-  });
+  };
 
-  timeout.addEventListener('change', function () {
+  var onTimeOutChange = function () {
     selectTime(timeout, timein);
-  });
+  };
 
-  resetBtn.addEventListener('click', resetPage);
+  var onResetBtnClick = function () {
+    resetPage();
+  };
+
+  changeMinPrice();
+
+  title.addEventListener('invalid', onTitleValidationInvalid);
+  title.addEventListener('input', onTitleInput);
+  price.addEventListener('invalid', onPriceValidationInvalid);
+  type.addEventListener('change', changeMinPrice);
+  form.addEventListener('submit', onFormSubmit);
+  timein.addEventListener('change', onTimeInChange);
+  timeout.addEventListener('change', onTimeOutChange);
+  resetBtn.addEventListener('click', onResetBtnClick);
 
   window.form = {
     checkCapacity: checkCapacity,

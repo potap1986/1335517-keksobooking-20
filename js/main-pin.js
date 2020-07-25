@@ -22,7 +22,7 @@
 
   // Перемещение пинa
 
-  pin.addEventListener('mousedown', function (evt) {
+  var onPinMousedown = function (evt) {
     evt.preventDefault();
     var coordinates = {
       x: evt.clientX,
@@ -82,7 +82,9 @@
 
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
-  });
+  };
+
+  pin.addEventListener('mousedown', onPinMousedown);
 
   window.mainPin = {
     setDefault: setDefault

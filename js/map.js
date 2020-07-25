@@ -28,6 +28,18 @@
     window.data.load();
   };
 
+  var onMainPinMouseDown = function (evt) {
+    if (evt.button === window.constants.MAIN_BUTTON) {
+      onMainPinClick();
+    }
+  };
+
+  var onMainPinKeyDown = function (evt) {
+    if (evt.keyCode === window.constants.ENTER) {
+      onMainPinClick();
+    }
+  };
+
   var activatePage = function () {
     map.classList.remove('map--faded');
     form.classList.remove('ad-form--disabled');
@@ -51,16 +63,8 @@
     map.classList.add('map--faded');
     form.classList.add('ad-form--disabled');
     window.mainPin.setDefault();
-    pin.addEventListener('mousedown', function (evt) {
-      if (evt.button === window.constants.MAIN_BUTTON) {
-        onMainPinClick();
-      }
-    }, {once: true});
-    pin.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === window.constants.ENTER) {
-        onMainPinClick();
-      }
-    }, {once: true});
+    pin.addEventListener('mousedown', onMainPinMouseDown, {once: true});
+    pin.addEventListener('keydown', onMainPinKeyDown, {once: true});
   };
 
   disactivatePage();

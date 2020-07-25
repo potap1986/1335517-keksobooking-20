@@ -25,30 +25,30 @@
   var convertPrice = function (price) {
     switch (true) {
       case price < window.constants.PriceLimit.LOW:
-        return 'low';
+        return window.constants.PriceCode.LOW;
       case price <= window.constants.PriceLimit.HIGH:
-        return 'middle';
+        return window.constants.PriceCode.MIDDLE;
     }
-    return 'high';
+    return window.constants.PriceCode.HIGH;
   };
 
   var filterType = function (data) {
-    return typeSelect.value === 'any' ? true : data.offer.type === typeSelect.value;
+    return typeSelect.value === window.constants.FILTER_ANY_CODE ? true : data.offer.type === typeSelect.value;
   };
 
   var filterPrice = function (data) {
-    return priceSelect.value === 'any' ? true : convertPrice(data.offer.price) === priceSelect.value;
+    return priceSelect.value === window.constants.FILTER_ANY_CODE ? true : convertPrice(data.offer.price) === priceSelect.value;
   };
 
   var filterRooms = function (data) {
-    return roomsSelect.value === 'any' ? true : data.offer.rooms === +roomsSelect.value;
+    return roomsSelect.value === window.constants.FILTER_ANY_CODE ? true : data.offer.rooms === +roomsSelect.value;
   };
 
   var filterGuests = function (data) {
     if (+guestsSelect.value === 0) {
       return data.offer.guests === 0;
     } else {
-      return guestsSelect.value === 'any' ? true : data.offer.guests >= +guestsSelect.value;
+      return guestsSelect.value === window.constants.FILTER_ANY_CODE ? true : data.offer.guests >= +guestsSelect.value;
     }
   };
 
@@ -58,12 +58,12 @@
     };
   };
 
-  var filterWifi = makeFeatureChecker(wifiCheckbox, 'wifi');
-  var filterDishwasher = makeFeatureChecker(dishwasherCheckbox, 'dishwasher');
-  var filterParking = makeFeatureChecker(parkingCheckbox, 'parking');
-  var filterWasher = makeFeatureChecker(washerCheckbox, 'washer');
-  var filterElevator = makeFeatureChecker(elevatorCheckbox, 'elevator');
-  var filterConditioner = makeFeatureChecker(conditionerCheckbox, 'conditioner');
+  var filterWifi = makeFeatureChecker(wifiCheckbox, window.constants.FeatureCode.WIFI);
+  var filterDishwasher = makeFeatureChecker(dishwasherCheckbox, window.constants.FeatureCode.DISHWASHER);
+  var filterParking = makeFeatureChecker(parkingCheckbox, window.constants.FeatureCode.PARKING);
+  var filterWasher = makeFeatureChecker(washerCheckbox, window.constants.FeatureCode.WASHER);
+  var filterElevator = makeFeatureChecker(elevatorCheckbox, window.constants.FeatureCode.ELEVATOR);
+  var filterConditioner = makeFeatureChecker(conditionerCheckbox, window.constants.FeatureCode.CONDITIONER);
 
   var debounce = function (cb) {
     var lastTimeout = null;

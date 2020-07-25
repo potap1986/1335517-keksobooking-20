@@ -16,23 +16,21 @@
 
   var createRequest = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
-    xhr.timeout = TIMEOUT;
-    xhr.responseType = 'json';
-    xhr.addEventListener('load', function () {
+
+    var onDataLoad = function () {
       if (xhr.status === STATUS_LOAD_OK) {
         onLoad(xhr.response);
       } else {
         onError();
       }
-    });
+    };
 
-    xhr.addEventListener('error', function () {
-      onError();
-    });
+    xhr.timeout = TIMEOUT;
+    xhr.responseType = 'json';
+    xhr.addEventListener('load', onDataLoad);
 
-    xhr.addEventListener('timeout', function () {
-      onError();
-    });
+    xhr.addEventListener('error', onError);
+    xhr.addEventListener('timeout', onError);
 
     return xhr;
   };

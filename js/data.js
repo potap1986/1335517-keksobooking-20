@@ -11,6 +11,7 @@
 
   var errorHandler = function () {
     window.notification.showError();
+    window.map.disactivatePage();
   };
 
   var load = function () {

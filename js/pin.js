@@ -6,15 +6,17 @@
     var pin = pinTemplate.cloneNode(true);
     var pinImg = pin.querySelector('img');
 
+    var onPinClick = function () {
+      pinClickHandler(advert);
+    };
+
     pin.style.left = advert.location.x - window.constants.PinSize.WIDTH / 2 + 'px';
     pin.style.top = advert.location.y - window.constants.PinSize.HEIGHT + 'px';
     pin.dataset.numPin = advert.id;
     pinImg.src = advert.author.avatar;
     pinImg.alt = advert.offer.title;
 
-    pin.addEventListener('click', function () {
-      onPinClick(advert);
-    });
+    pin.addEventListener('click', onPinClick);
 
     return pin;
   };
@@ -31,7 +33,7 @@
     pinContainer.appendChild(fragment);
   };
 
-  var onPinClick = function (data) {
+  var pinClickHandler = function (data) {
     var card = window.card.renderPopup(data);
     var map = document.querySelector('.map');
     var mapFiltersContainer = document.querySelector('.map__filters-container');

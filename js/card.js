@@ -1,34 +1,34 @@
 'use strict';
 
 (function () {
+  var Rooms = {
+    LIMIT_1: 0,
+    LIMIT_2: 2,
+    LIMIT_3: 5,
+  };
+
+  var Guests = {
+    LIMIT_1: 0,
+    LIMIT_2: 1,
+  };
+
   var getPrice = function (price) {
     return price + '₽/ночь';
   };
 
   var getCapacity = function (rooms, guests) {
-    var Rooms = {
-      LIMIT_1: 0,
-      LIMIT_2: 2,
-      LIMIT_3: 5,
-    };
-
-    var Guests = {
-      LIMIT_1: 0,
-      LIMIT_2: 1,
-    };
-
     var roomsLine;
     var guestsLine;
-    if (rooms % 10 >= Rooms.LIMIT_2 && rooms % 10 < Rooms.LIMIT_3) {
+    if (rooms % window.constants.DIVIDER >= Rooms.LIMIT_2 && rooms % window.constants.DIVIDER < Rooms.LIMIT_3) {
       roomsLine = rooms + ' комнаты';
-    } else if (rooms % 10 >= Rooms.LIMIT_3 || rooms % 10 === Rooms.LIMIT_1) {
+    } else if (rooms % window.constants.DIVIDER >= Rooms.LIMIT_3 || rooms % window.constants.DIVIDER === Rooms.LIMIT_1) {
       roomsLine = rooms + ' комнат';
     } else {
       roomsLine = rooms + ' комната';
     }
-    if (guests % 10 === Guests.LIMIT_1) {
+    if (guests % window.constants.DIVIDER === Guests.LIMIT_1) {
       guestsLine = ' не для гостей';
-    } else if (guests % 10 === Guests.LIMIT_2) {
+    } else if (guests % window.constants.DIVIDER === Guests.LIMIT_2) {
       guestsLine = ' для ' + guests + ' гостя';
     } else {
       guestsLine = ' для ' + guests + ' гостей';
@@ -57,7 +57,7 @@
   };
 
   var onPopupEscPress = function (evt) {
-    if (evt.key === 'Escape') {
+    if (evt.key === window.constants.KeyCode.ESC) {
       evt.preventDefault();
       removePopup();
     }
@@ -101,9 +101,7 @@
     renderPhotos(advert.offer.photos, popup.querySelector('.popup__photos'));
     popup.querySelector('.popup__avatar').src = advert.author.avatar;
 
-    popupClose.addEventListener('click', function () {
-      removePopup();
-    });
+    popupClose.addEventListener('click', removePopup);
 
     document.addEventListener('keydown', onPopupEscPress);
     return popup;

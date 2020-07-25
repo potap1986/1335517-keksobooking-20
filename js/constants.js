@@ -9,6 +9,10 @@
   var MAIN_BUTTON = 0;
   var PIN_COUNT = 5;
   var DEBOUNCE_INTERVAL = 500;
+  var FILTER_ANY_CODE = 'any';
+  var DIVIDER = 10;
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+  var DEFAULT_AVATAR = 'img/muffin-grey.svg';
 
   var MainPin = {
     WIDTH: 65,
@@ -24,6 +28,12 @@
   var PhotoSize = {
     WIDTH: 45,
     HEIGHT: 40
+  };
+
+  var PicPreviewSize = {
+    WIDTH: 70,
+    HEIGHT: 70,
+    BORDER_RADIUS: 5,
   };
 
   var MinPrice = {
@@ -45,6 +55,25 @@
     palace: 'Дворец'
   };
 
+  var PriceCode = {
+    LOW: 'low',
+    MIDDLE: 'middle',
+    HIGH: 'high'
+  };
+
+  var FeatureCode = {
+    WIFI: 'wifi',
+    DISHWASHER: 'dishwasher',
+    PARKING: 'parking',
+    WASHER: 'washer',
+    ELEVATOR: 'elevator',
+    CONDITIONER: 'conditioner'
+  };
+
+  var KeyCode = {
+    ESC: 'Escape'
+  };
+
   window.constants = {
     MIN_Y: MIN_Y,
     MAX_Y: MAX_Y,
@@ -54,11 +83,19 @@
     MAIN_BUTTON: MAIN_BUTTON,
     PIN_COUNT: PIN_COUNT,
     DEBOUNCE_INTERVAL: DEBOUNCE_INTERVAL,
+    FILTER_ANY_CODE: FILTER_ANY_CODE,
+    DIVIDER: DIVIDER,
+    FILE_TYPES: FILE_TYPES,
+    DEFAULT_AVATAR: DEFAULT_AVATAR,
     MainPin: MainPin,
     PinSize: PinSize,
     OfferType: OfferType,
     PhotoSize: PhotoSize,
+    PicPreviewSize: PicPreviewSize,
     PriceLimit: PriceLimit,
-    MinPrice: MinPrice
+    MinPrice: MinPrice,
+    PriceCode: PriceCode,
+    FeatureCode: FeatureCode,
+    KeyCode: KeyCode
   };
 })();
