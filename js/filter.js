@@ -94,7 +94,7 @@
       filterConditioner(it);
     });
     window.pin.removePins();
-    window.card.removePopup();
+    window.card.onPopupClose();
     window.pin.renderPins(filtredData);
   });
 

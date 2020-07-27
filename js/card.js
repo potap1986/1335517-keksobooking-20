@@ -59,7 +59,7 @@
   var onPopupEscPress = function (evt) {
     if (evt.key === window.constants.KeyCode.ESC) {
       evt.preventDefault();
-      removePopup();
+      onPopupClose();
     }
   };
 
@@ -85,7 +85,7 @@
   };
 
   var renderPopup = function (advert) {
-    removePopup();
+    onPopupClose();
     var popupTemplate = document.querySelector('#card').content.querySelector('.popup');
     var popup = popupTemplate.cloneNode(true);
     var popupClose = popup.querySelector('.popup__close');
@@ -101,13 +101,13 @@
     renderPhotos(advert.offer.photos, popup.querySelector('.popup__photos'));
     popup.querySelector('.popup__avatar').src = advert.author.avatar;
 
-    popupClose.addEventListener('click', removePopup);
+    popupClose.addEventListener('click', onPopupClose);
 
     document.addEventListener('keydown', onPopupEscPress);
     return popup;
   };
 
-  var removePopup = function () {
+  var onPopupClose = function () {
     var popupWindow = document.querySelector('.popup');
 
     if (popupWindow) {
@@ -118,6 +118,6 @@
 
   window.card = {
     renderPopup: renderPopup,
-    removePopup: removePopup
+    onPopupClose: onPopupClose
   };
 })();

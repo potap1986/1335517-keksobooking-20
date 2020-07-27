@@ -47,7 +47,7 @@
     cancelDisabled(selects);
     address.setAttribute('readonly', '');
 
-    window.form.initRoomsSelect();
+    window.form.onRoomsSelectChange();
 
     var mapFilters = document.querySelector('.map__filters');
     var mapFiltersElements = Array.from(mapFilters.getElementsByTagName('*'));

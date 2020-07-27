@@ -33,14 +33,14 @@
     }
   };
 
-  var initRoomsSelect = function () {
+  var onRoomsSelectChange = function () {
     Array.from(capacity.options).forEach(function (option) {
       option.disabled = !DISABLED_ROOMS[rooms.value].includes(option.value);
       checkCapacity(option);
     });
   };
 
-  rooms.addEventListener('change', initRoomsSelect);
+  rooms.addEventListener('change', onRoomsSelectChange);
 
   var onCapacityChange = function () {
     Array.from(capacity.options).forEach(function (option) {
@@ -88,7 +88,7 @@
     }
   };
 
-  var changeMinPrice = function () {
+  var onTypeChange = function () {
     var minPrice = window.constants.MinPrice[type.value];
     price.placeholder = minPrice;
     price.min = minPrice;
@@ -103,7 +103,7 @@
     filtersForm.reset();
     window.upload.resetUploadedPics();
     window.pin.removePins();
-    window.card.removePopup();
+    window.card.onPopupClose();
     window.map.disactivatePage();
   };
 
@@ -133,12 +133,12 @@
     resetPage();
   };
 
-  changeMinPrice();
+  onTypeChange();
 
   title.addEventListener('invalid', onTitleValidationInvalid);
   title.addEventListener('input', onTitleInput);
   price.addEventListener('invalid', onPriceValidationInvalid);
-  type.addEventListener('change', changeMinPrice);
+  type.addEventListener('change', onTypeChange);
   form.addEventListener('submit', onFormSubmit);
   timein.addEventListener('change', onTimeInChange);
   timeout.addEventListener('change', onTimeOutChange);
@@ -146,6 +146,6 @@
 
   window.form = {
     checkCapacity: checkCapacity,
-    initRoomsSelect: initRoomsSelect,
+    onRoomsSelectChange: onRoomsSelectChange,
   };
 })();
